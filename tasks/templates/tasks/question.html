@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QA Level test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+      font-size: 1.5em;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {% if finished %}
+      {% if not modules %}
+    <p>{{ "Success! AI will kill you first. In 2-3 weeks approximately." }}</p>
+      {% else %}
+        {{ "You should learn some modules:" }}
+        <ul>
+          {% for module in modules %}
+          <li>{{ module.name}}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endif %}
+    <h1>{{question.question}}</h1>
+    <form action="/start-test" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="question-id" value="{{question.id}}">
+      {% for answer in question.answers.all %}
+      <div class="form-group">
+        <label>
+          <input type="radio" name="option" value="{{ answer.code }}">
+          {{answer.code}}. {{answer.answer}}
+        </label>
+      </div>
+      {% endfor %}
+      {% if not finished %}
+        <button type="submit">Send Answer</button>
+      {% endif %}
+    </form>
+    {% if finished %}
+      <form action="/init-test" method="post">
+        {% csrf_token %}
+        <button type="submit">Start study</button>
+      </form>
+    {% endif %}
+  </div>
+</body>
+</html>

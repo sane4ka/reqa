@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration and Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .tabs {
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #dddddd;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background-color: #ffffff;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #cccccc;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .message a {
+      color: #4caf50;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    function toggleTab(tabName) {
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+      }
+      var tabContents = document.getElementsByClassName("tab-content");
+      for (var j = 0; j < tabContents.length; j++) {
+        tabContents[j].classList.remove("active");
+      }
+
+      document.getElementById(tabName + "-tab").classList.add("active");
+      document.getElementById(tabName + "-content").classList.add("active");
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <div id="login-tab" class="tab active" onclick="toggleTab('login')">Login</div>
+      <div id="registration-tab" class="tab" onclick="toggleTab('registration')">Registration</div>
+    </div>
+    <div id="login-content" class="tab-content active">
+      <h1>Login</h1>
+      <form id="login-form" action="/accounts/login?next=/test" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="login-username">Email</label>
+          <input type="email" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+        <div class="message">
+          Don't have an account yet? <a href="#" onclick="toggleTab('registration')">Register</a>
+        </div>
+      </form>
+    </div>
+    <div id="registration-content" class="tab-content">
+      <h1>Registration</h1>
+      <form id="registration-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="registration-password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" required>
+        </div>
+        <button type="submit">Register</button>
+        <div class="message">
+          Already have an account? <a href="#" onclick="toggleTab('login')">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
